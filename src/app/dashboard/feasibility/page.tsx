@@ -298,16 +298,16 @@ export default function FeasibilityPage() {
           <div className="panel">
             <div className="panel-header"><div className="panel-title">SOFT COSTS & DUTIES</div></div>
             <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {[
+              {([
                 ['Architect & Design (%)', architectPct, setArchitectPct],
                 ['Structural / MEP Engineering (%)', engineeringPct, setEngineeringPct],
                 ['Permits & Fees (%)', permitsPct, setPermitsPct],
                 ['Caribbean Import Duty (%)', importDutyPct, setImportDutyPct],
                 ['Contingency (%)', contingencyPct, setContingencyPct],
-              ].map(([label, val, setter]) => (
-                <div key={label as string} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              ] as [string, string, (v: string) => void][]).map(([label, val, setter]) => (
+                <div key={label} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                   <label style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--muted)', flex: 1, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</label>
-                  <input style={{ ...inputStyle, width: '70px' }} type="number" step="0.5" value={val as string} onChange={e => (setter as any)(e.target.value)} />
+                  <input style={{ ...inputStyle, width: '70px' }} type="number" step="0.5" value={val} onChange={e => setter(e.target.value)} />
                 </div>
               ))}
             </div>
@@ -317,15 +317,15 @@ export default function FeasibilityPage() {
           <div className="panel">
             <div className="panel-header"><div className="panel-title">FINANCING STRUCTURE</div></div>
             <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {[
+              {([
                 ['Loan-to-Value (%)', ltv, setLtv],
                 ['Interest Rate (% p.a.)', interestRate, setInterestRate],
                 ['Loan Term (months)', loanTermMonths, setLoanTermMonths],
                 ['Construction Period (months)', constructionMonths, setConstructionMonths],
-              ].map(([label, val, setter]) => (
-                <div key={label as string} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              ] as [string, string, (v: string) => void][]).map(([label, val, setter]) => (
+                <div key={label} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                   <label style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--muted)', flex: 1, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</label>
-                  <input style={{ ...inputStyle, width: '70px' }} type="number" step="0.5" value={val as string} onChange={e => (setter as any)(e.target.value)} />
+                  <input style={{ ...inputStyle, width: '70px' }} type="number" step="0.5" value={val} onChange={e => setter(e.target.value)} />
                 </div>
               ))}
             </div>
