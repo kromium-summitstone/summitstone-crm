@@ -96,7 +96,7 @@ export default async function DashboardPage() {
                   return (
                     <tr key={p.id}>
                       <td className="strong">
-                        <Link href={`/dashboard/pipeline?project=${p.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                        <Link href={`/dashboard/pipeline/${p.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                           {p.name}
                         </Link>
                       </td>
@@ -135,7 +135,8 @@ export default async function DashboardPage() {
             </div>
             <div style={{ padding: '10px 12px' }}>
               {(overduePermits ?? []).map(p => (
-                <div key={p.id} className="alert-item alert-red">
+                <Link key={p.id} href="/dashboard/permits" style={{ textDecoration: 'none', display: 'block' }}>
+                <div className="alert-item alert-red" style={{ cursor: 'pointer' }}>
                   <div>
                     <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--cream)' }}>Permit Overdue — {p.project?.name}</div>
                     <div style={{ fontSize: '10px', color: 'var(--muted-2)', marginTop: '1px' }}>{p.title} · {p.authority}</div>

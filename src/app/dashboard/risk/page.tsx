@@ -9,6 +9,7 @@ export default function RiskPage() {
   const [projects, setProjects] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
+  const [selectedRisk, setSelectedRisk] = useState<Risk | null>(null)
   const [form, setForm] = useState({ project_id: '', title: '', description: '', category: 'financial', likelihood: '2', impact: '2', mitigation: '' })
   const supabase = createClient()
 
@@ -110,7 +111,43 @@ export default function RiskPage() {
       )}
 
       <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '12px' }} className="grid-responsive">
-        {/* Heatmap */}
+        {/* Selected Risk Detail */}
+      {selectedRisk && (
+        <div className="panel" style={{ marginBottom: '16px', borderColor: selectedRisk.risk_score >= 12 ? 'rgba(255,77,77,0.4)' : 'rgba(245,166,35,0.3)' }}>
+          <div className="panel-header">
+            <div>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '4px' }}>
+                <span className={`badge ${selectedRisk.risk_score >= 12 ? 'badge-red' : selectedRisk.risk_score >= 6 ? 'badge-amber' : 'badge-blue'}`}>{selectedRisk.category}</span>
+                <span style={{ fontFamily: 'var(--font-space-mono)', fontSize: '10px', color: selectedRisk.risk_score >= 12 ? 'var(--red)' : 'var(--amber)' }}>Score {selectedRisk.risk_score} (Likelihood {selectedRisk.likelihood} × Impact {selectedRisk.impact})</span>
+              </div>
+              <div className="panel-title">{selectedRisk.title}</div>
+              <div className="panel-sub">{(selectedRisk as any).project?.name ?? 'Portfolio-wide'}</div>
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button className="btn btn-secondary" onClick={() => resolveRisk(selectedRisk.id)}>Mark Resolved</button>
+              <button className="btn btn-secondary" onClick={() => setSelectedRisk(null)}>✕</button>
+            </div>
+          </div>
+          <div className="panel-body">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div>
+                <div className="form-label" style={{ marginBottom: '6px' }}>Description</div>
+                <div style={{ fontSize: '12px', color: 'var(--muted-2)', lineHeight: 1.7, padding: '12px', background: 'var(--surface-2)', border: '1px solid var(--border)' }}>
+                  {selectedRisk.description || '—'}
+                </div>
+              </div>
+              <div>
+                <div className="form-label" style={{ marginBottom: '6px' }}>Mitigation Plan</div>
+                <div style={{ fontSize: '12px', color: 'var(--green)', lineHeight: 1.7, padding: '12px', background: 'rgba(46,204,138,0.06)', border: '1px solid rgba(46,204,138,0.2)' }}>
+                  {selectedRisk.mitigation || 'No mitigation plan recorded.'}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Heatmap */}}
         <div className="panel">
           <div className="panel-header">
             <div><div className="panel-title">RISK HEATMAP</div><div className="panel-sub">Likelihood vs Impact · Active risks only</div></div>
@@ -158,7 +195,7 @@ export default function RiskPage() {
           <div style={{ padding: '0 12px 12px' }}>
             {loading && <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>Loading...</div>}
             {risks.map(r => (
-              <div key={r.id} style={{ padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
+              <div key={r.id} onClick={() => setSelectedRisk(selectedRisk?.id === r.id ? null : r)} style={{ padding: '10px 0', borderBottom: '1px solid var(--border)', cursor: 'pointer', background: selectedRisk?.id === r.id ? 'var(--accent-dim)' : 'transparent' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', marginBottom: '4px' }}>
                   <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--cream)', flex: 1 }}>{r.title}</div>
                   <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>

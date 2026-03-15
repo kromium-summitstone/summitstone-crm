@@ -200,7 +200,7 @@ export default function ClientsPage() {
             <tbody>
               {loading && <tr><td colSpan={8} style={{ textAlign: 'center', padding: '20px', color: 'var(--muted)' }}>Loading...</td></tr>}
               {clients.map(client => (
-                <tr key={client.id} style={{ cursor: 'pointer' }}>
+                <tr key={client.id} style={{ cursor: 'pointer' }} onClick={() => setSelectedClient(selectedClient?.id === client.id ? null : client)}>
                   <td className="strong">{client.name}</td>
                   <td><span className={`badge ${typeColors[client.type] ?? 'badge-grey'}`}>{client.type}</span></td>
                   <td>{client.island ? <span className="badge badge-blue">{ISLAND_LABELS[client.island as Island] ?? client.island}</span> : '—'}</td>

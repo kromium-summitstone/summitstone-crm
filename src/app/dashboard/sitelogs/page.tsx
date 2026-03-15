@@ -9,6 +9,7 @@ export default function SiteLogsPage() {
   const [logs, setLogs] = useState<SiteLog[]>([])
   const [projects, setProjects] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [selectedLog, setSelectedLog] = useState<SiteLog | null>(null)
   const [form, setForm] = useState({ project_id: '', log_date: new Date().toISOString().slice(0,10), workers_on_site: '', weather: 'clear', work_performed: '', safety_status: 'clear', safety_notes: '', delays_description: '', delay_hours: '0' })
   const supabase = createClient()
 
@@ -80,7 +81,53 @@ export default function SiteLogsPage() {
       </div>
 
       {/* Log history */}
-      <div className="panel">
+      {selectedLog && (
+      <div className="panel" style={{ marginBottom: '16px', borderColor: selectedLog.safety_status === 'incident' || selectedLog.safety_status === 'critical' ? 'rgba(255,77,77,0.4)' : 'var(--accent-line)' }}>
+        <div className="panel-header">
+          <div>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '4px' }}>
+              <span style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--accent)' }}>{formatDate(selectedLog.log_date)}</span>
+              <span style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--muted-2)' }}>Day {selectedLog.day_number}</span>
+              <span className={`badge ${safetyColors[selectedLog.safety_status as string] ?? 'badge-grey'}`}>{SAFETY_STATUS_LABELS[selectedLog.safety_status as SafetyStatus] ?? selectedLog.safety_status}</span>
+              <span style={{ fontSize: '14px' }}>{weatherIcons[selectedLog.weather] ?? ''}</span>
+            </div>
+            <div className="panel-title">{(selectedLog as any).project?.name}</div>
+            <div className="panel-sub">{selectedLog.workers_on_site} workers on site · {selectedLog.weather?.replace(/_/g, ' ')}</div>
+          </div>
+          <button className="btn btn-secondary" onClick={() => setSelectedLog(null)}>✕</button>
+        </div>
+        <div className="panel-body">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div>
+              <div className="form-label" style={{ marginBottom: '6px' }}>Work Performed</div>
+              <div style={{ fontSize: '12px', color: 'var(--muted-2)', lineHeight: 1.8, padding: '12px', background: 'var(--surface-2)', border: '1px solid var(--border)' }}>
+                {selectedLog.work_performed}
+              </div>
+            </div>
+            <div>
+              <table style={{ width: '100%' }}>
+                <tbody>
+                  {([
+                    ['Workers on site', String(selectedLog.workers_on_site)],
+                    ['Weather', selectedLog.weather?.replace(/_/g, ' ') ?? '—'],
+                    ['Safety status', SAFETY_STATUS_LABELS[selectedLog.safety_status as SafetyStatus] ?? selectedLog.safety_status],
+                    ['Delays', (selectedLog as any).delays_description || 'None reported'],
+                    ['Delay hours', (selectedLog as any).delay_hours > 0 ? `${(selectedLog as any).delay_hours}h` : 'None'],
+                  ] as [string,string][]).map(([label, value]) => (
+                    <tr key={label} style={{ borderBottom: '1px solid var(--border)' }}>
+                      <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--muted)', padding: '7px 0', textTransform: 'uppercase', width: '110px' }}>{label}</td>
+                      <td style={{ fontSize: '12px', color: 'var(--cream)', padding: '7px 0', textTransform: 'capitalize' }}>{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
+    <div className="panel">
         <div className="panel-header"><div><div className="panel-title">SITE LOG HISTORY</div><div className="panel-sub">All projects · Latest entries</div></div></div>
         <div className="table-scroll">
           <table className="data-table">
@@ -88,12 +135,12 @@ export default function SiteLogsPage() {
             <tbody>
               {loading && <tr><td colSpan={6} style={{ textAlign: 'center', padding: '20px', color: 'var(--muted)' }}>Loading...</td></tr>}
               {logs.map(log => (
-                <tr key={log.id}>
+                <tr key={log.id} onClick={() => setSelectedLog(selectedLog?.id === log.id ? null : log)} style={{ cursor: 'pointer', background: selectedLog?.id === log.id ? 'var(--accent-dim)' : undefined }}>
                   <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', whiteSpace: 'nowrap' }}>{formatDate(log.log_date)}</td>
                   <td className="strong">{(log as any).project?.name}</td>
                   <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '10px', textAlign: 'center' }}>{log.workers_on_site}</td>
                   <td style={{ textAlign: 'center', fontSize: '14px' }}>{weatherIcons[log.weather] ?? '—'}</td>
-                  <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{log.work_performed}</td>
+                  <td style={{ maxWidth: selectedLog?.id === log.id ? 'none' : '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: selectedLog?.id === log.id ? 'normal' : 'nowrap' }}>{log.work_performed}</td>
                   <td><span className={`badge ${safetyColors[log.safety_status as string] ?? 'badge-grey'}`}>{SAFETY_STATUS_LABELS[log.safety_status as SafetyStatus] ?? log.safety_status}</span></td>
                 </tr>
               ))}

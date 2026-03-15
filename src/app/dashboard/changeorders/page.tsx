@@ -10,6 +10,7 @@ export default function ChangeOrdersPage() {
   const [projects, setProjects] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
+  const [selectedCO, setSelectedCO] = useState<ChangeOrder | null>(null)
   const [form, setForm] = useState({ project_id: '', co_number: '', title: '', description: '', raised_by: '', value_usd: '', schedule_impact_days: '0', status: 'pending' })
   const supabase = createClient()
 
@@ -89,6 +90,59 @@ export default function ChangeOrdersPage() {
         </div>
       )}
 
+      {/* CO Detail Panel */}
+      {selectedCO && (
+        <div className="panel" style={{ marginBottom: '16px', borderColor: 'var(--accent-line)' }}>
+          <div className="panel-header">
+            <div>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '4px' }}>
+                <span style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--accent)' }}>{selectedCO.co_number}</span>
+                <span className={`badge ${selectedCO.status === 'approved' ? 'badge-green' : selectedCO.status === 'pending' ? 'badge-amber' : selectedCO.status === 'rejected' ? 'badge-grey' : 'badge-red'}`}>{selectedCO.status}</span>
+                {selectedCO.schedule_impact_days > 0 && <span className="badge badge-red">+{selectedCO.schedule_impact_days} days schedule impact</span>}
+              </div>
+              <div className="panel-title">{selectedCO.title}</div>
+              <div className="panel-sub">Raised by: {selectedCO.raised_by ?? '—'} · Value: {selectedCO.value_usd?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })}</div>
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {selectedCO.status === 'pending' && (
+                <>
+                  <button className="btn btn-primary" style={{ background: 'var(--green)', fontSize: '10px' }} onClick={() => { updateStatus(selectedCO.id, 'approved'); setSelectedCO(null) }}>✓ Approve</button>
+                  <button className="btn btn-danger" style={{ fontSize: '10px' }} onClick={() => { updateStatus(selectedCO.id, 'rejected'); setSelectedCO(null) }}>✗ Reject</button>
+                </>
+              )}
+              <button className="btn btn-secondary" onClick={() => setSelectedCO(null)}>✕</button>
+            </div>
+          </div>
+          <div className="panel-body">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div>
+                <div className="form-label" style={{ marginBottom: '6px' }}>Description</div>
+                <div style={{ fontSize: '12px', color: 'var(--muted-2)', lineHeight: 1.7, padding: '12px', background: 'var(--surface-2)', border: '1px solid var(--border)' }}>
+                  {selectedCO.description || '—'}
+                </div>
+              </div>
+              <div>
+                <table style={{ width: '100%' }}>
+                  <tbody>
+                    {[
+                      ['Project', (selectedCO as any).project?.name ?? '—'],
+                      ['Contract value', selectedCO.value_usd?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }) ?? '—'],
+                      ['Schedule impact', selectedCO.schedule_impact_days > 0 ? `+${selectedCO.schedule_impact_days} calendar days` : 'No impact'],
+                      ['Raised by', selectedCO.raised_by ?? '—'],
+                    ].map(([label, value]) => (
+                      <tr key={label} style={{ borderBottom: '1px solid var(--border)' }}>
+                        <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--muted)', padding: '8px 0', textTransform: 'uppercase', width: '120px' }}>{label}</td>
+                        <td style={{ fontSize: '12px', color: 'var(--cream)', padding: '8px 0' }}>{value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="panel">
         <div className="panel-header">
           <div><div className="panel-title">CHANGE ORDER LOG</div><div className="panel-sub">Full audit trail</div></div>
@@ -100,7 +154,7 @@ export default function ChangeOrdersPage() {
             <tbody>
               {loading && <tr><td colSpan={9} style={{ textAlign: 'center', padding: '20px', color: 'var(--muted)' }}>Loading...</td></tr>}
               {cos.map(co => (
-                <tr key={co.id}>
+                <tr key={co.id} onClick={() => setSelectedCO(selectedCO?.id === co.id ? null : co)} style={{ cursor: 'pointer', background: selectedCO?.id === co.id ? 'var(--accent-dim)' : undefined }}>
                   <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--accent)' }}>{co.co_number}</td>
                   <td className="strong">{(co as any).project?.name}</td>
                   <td style={{ color: 'var(--muted-2)' }}>{co.raised_by}</td>

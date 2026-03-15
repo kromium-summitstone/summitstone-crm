@@ -10,6 +10,7 @@ export default function ProcurementPage() {
   const [projects, setProjects] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
+  const [selectedShipment, setSelectedShipment] = useState<Shipment | null>(null)
   const [form, setForm] = useState({ project_id: '', reference: '', material: '', supplier: '', origin_location: '', destination_island: 'BRB', value_usd: '', eta_date: '', status: 'ordered', notes: '' })
   const supabase = createClient()
 
@@ -88,6 +89,58 @@ export default function ProcurementPage() {
         </div>
       )}
 
+      {selectedShipment && (
+        <div className="panel" style={{ marginBottom: '16px', borderColor: 'var(--accent-line)' }}>
+          <div className="panel-header">
+            <div>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '4px' }}>
+                <span style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--accent)' }}>{selectedShipment.reference}</span>
+                <span className={`badge badge-${getStatusVariant(selectedShipment.status)}`}>{SHIPMENT_STATUS_LABELS[selectedShipment.status as ShipmentStatus] ?? selectedShipment.status}</span>
+                <span className="badge badge-blue">{selectedShipment.destination_island}</span>
+              </div>
+              <div className="panel-title">{selectedShipment.material}</div>
+              <div className="panel-sub">{selectedShipment.supplier} · {selectedShipment.origin_location} → {selectedShipment.destination_island}</div>
+            </div>
+            <button className="btn btn-secondary" onClick={() => setSelectedShipment(null)}>✕</button>
+          </div>
+          <div className="panel-body">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div>
+                <table style={{ width: '100%' }}>
+                  <tbody>
+                    {([
+                      ['Supplier', selectedShipment.supplier],
+                      ['Origin', selectedShipment.origin_location],
+                      ['Destination', selectedShipment.destination_island],
+                      ['Value', selectedShipment.value_usd?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })],
+                      ['ETA', formatShortDate(selectedShipment.eta_date)],
+                    ] as [string,string][]).map(([label, value]) => (
+                      <tr key={label} style={{ borderBottom: '1px solid var(--border)' }}>
+                        <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--muted)', padding: '7px 0', textTransform: 'uppercase', width: '90px' }}>{label}</td>
+                        <td style={{ fontSize: '12px', color: 'var(--cream)', padding: '7px 0' }}>{value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div>
+                <div className="form-label" style={{ marginBottom: '8px' }}>Update Status</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {(['ordered','in_transit','customs_hold','delayed','delivered'] as const).map(status => (
+                    <button key={status} className={`btn ${selectedShipment.status === status ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{ justifyContent: 'flex-start', textTransform: 'capitalize', fontSize: '10px' }}
+                      onClick={async () => { await updateStatus(selectedShipment.id, status); setSelectedShipment(null); load() }}
+                      disabled={selectedShipment.status === status}>
+                      {selectedShipment.status === status ? '✓ ' : ''}{status.replace(/_/g, ' ')}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="panel">
         <div className="panel-header">
           <div><div className="panel-title">MULTI-ISLAND IMPORT TRACKER</div><div className="panel-sub">All procurement · Live shipment status</div></div>
@@ -101,7 +154,7 @@ export default function ProcurementPage() {
               {!loading && shipments.map(s => {
                 const v = getStatusVariant(s.status)
                 return (
-                  <tr key={s.id}>
+                  <tr key={s.id} onClick={() => setSelectedShipment(selectedShipment?.id === s.id ? null : s)} style={{ cursor: 'pointer', background: selectedShipment?.id === s.id ? 'var(--accent-dim)' : undefined }}>
                     <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--accent)' }}>{s.reference}</td>
                     <td className="strong">{s.material}</td>
                     <td style={{ color: 'var(--muted-2)' }}>{s.supplier}</td>
