@@ -1,6 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import { useTheme } from '@/components/providers/ThemeProvider'
 import type { Profile } from '@/types'
 
 const pageTitles: Record<string, { title: string; sub: string }> = {
@@ -11,6 +12,7 @@ const pageTitles: Record<string, { title: string; sub: string }> = {
   '/dashboard/payments': { title: 'PAYMENT SCHEDULES', sub: 'Milestone disbursements · All contracts' },
   '/dashboard/changeorders': { title: 'CHANGE ORDERS', sub: 'CO log · Approvals · Audit trail' },
   '/dashboard/procurement': { title: 'PROCUREMENT', sub: 'Multi-island import tracking · All shipments' },
+  '/dashboard/contractors': { title: 'CONTRACTORS', sub: 'Performance intelligence · Regional network · Trade comparison' },
   '/dashboard/sitelogs': { title: 'SITE LOGS', sub: 'Daily field documentation' },
   '/dashboard/permits': { title: 'PERMITS & APPROVALS', sub: 'Government workflows · All jurisdictions' },
   '/dashboard/investor': { title: 'INVESTOR PORTAL', sub: 'Remote reporting · Portfolio overview' },
@@ -21,11 +23,11 @@ const pageTitles: Record<string, { title: string; sub: string }> = {
   '/dashboard/feasibility': { title: 'FEASIBILITY & ROI ENGINE', sub: 'Development appraisal · Caribbean benchmarks · Multi-currency' },
   '/dashboard/clients': { title: 'CLIENTS', sub: 'Developer & investor directory · Portfolio overview' },
   '/dashboard/reports': { title: 'CLIENT REPORTS', sub: 'Progress reports · Financial summaries · PDF export' },
-  '/dashboard/contractors': { title: 'CONTRACTORS', sub: 'Performance intelligence · Regional network · Trade comparison' },
 }
 
 export default function Topbar({ profile }: { profile: Profile | null }) {
   const pathname = usePathname()
+  const { theme, toggle } = useTheme()
   const meta = pageTitles[pathname] ?? { title: pathname.split('/').pop()?.toUpperCase() ?? 'CRM', sub: '' }
   const now = new Date()
   const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()
@@ -42,21 +44,26 @@ export default function Topbar({ profile }: { profile: Profile | null }) {
       flexShrink: 0,
     }}>
       <div style={{ flex: 1 }}>
-        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '20px', letterSpacing: '2px', color: 'var(--cream)', lineHeight: 1 }}>
+        <div style={{ fontFamily: 'var(--font-bebas)', fontSize: '20px', letterSpacing: '2px', color: 'var(--cream)', lineHeight: 1 }}>
           {meta.title}
         </div>
-        <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '9px', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase', marginTop: '1px' }} className="hide-mobile">
+        <div style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase', marginTop: '1px' }} className="hide-mobile">
           {meta.sub}
         </div>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: '9px', color: 'var(--muted)', letterSpacing: '0.1em' }} className="hide-mobile">
+        <span style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--muted)', letterSpacing: '0.1em' }} className="hide-mobile">
           {dateStr}
         </span>
-          <button onClick={toggle} className="theme-toggle" title={theme === 'dark' ? 'Light mode' : 'Dark mode'} aria-label="Toggle theme">
-            {theme === 'dark' ? '☀' : '☾'}
-          </button>
+        <button
+          onClick={toggle}
+          className="theme-toggle"
+          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          aria-label="Toggle theme"
+        >
+          {theme === 'dark' ? '☀' : '☾'}
+        </button>
       </div>
 
       <style>{`
