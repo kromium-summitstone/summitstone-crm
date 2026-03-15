@@ -136,28 +136,33 @@ export default async function DashboardPage() {
             <div style={{ padding: '10px 12px' }}>
               {(overduePermits ?? []).map(p => (
                 <Link key={p.id} href="/dashboard/permits" style={{ textDecoration: 'none', display: 'block' }}>
-                <div className="alert-item alert-red" style={{ cursor: 'pointer' }}>
-                  <div>
-                    <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--cream)' }}>Permit Overdue — {p.project?.name}</div>
-                    <div style={{ fontSize: '10px', color: 'var(--muted-2)', marginTop: '1px' }}>{p.title} · {p.authority}</div>
+                  <div className="alert-item alert-red" style={{ cursor: 'pointer' }}>
+                    <div>
+                      <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--cream)' }}>Permit Overdue — {p.project?.name}</div>
+                      <div style={{ fontSize: '10px', color: 'var(--muted-2)', marginTop: '1px' }}>{p.title} · {p.authority}</div>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
               {(pendingCOs ?? []).map(co => (
-                <div key={co.id} className="alert-item alert-amber">
-                  <div>
-                    <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--cream)' }}>Change Order Pending — {co.project?.name}</div>
-                    <div style={{ fontSize: '10px', color: 'var(--muted-2)', marginTop: '1px' }}>{co.co_number} · {formatCurrency(co.value_usd)}</div>
+                <Link key={co.id} href="/dashboard/changeorders" style={{ textDecoration: 'none', display: 'block' }}>
+                  <div className="alert-item alert-amber" style={{ cursor: 'pointer' }}>
+                    <div>
+                      <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--cream)' }}>Change Order Pending — {co.project?.name}</div>
+                      <div style={{ fontSize: '10px', color: 'var(--muted-2)', marginTop: '1px' }}>{co.co_number} · {formatCurrency(co.value_usd)}</div>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
               {(overduePayments ?? []).map(p => (
-                <div key={p.id} className="alert-item alert-red">
-                  <div>
-                    <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--cream)' }}>Payment Overdue — {p.project?.name}</div>
-                    <div style={{ fontSize: '10px', color: 'var(--muted-2)', marginTop: '1px' }}>{p.title} · {formatCurrency(p.amount_usd)} due {formatShortDate(p.due_date)}</div>
+                <Link key={p.id} href="/dashboard/payments" style={{ textDecoration: 'none', display: 'block' }}>
+                  <div className="alert-item alert-red" style={{ cursor: 'pointer' }}>
+                    <div>
+                      <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--cream)' }}>Payment Overdue — {p.project?.name}</div>
+                      <div style={{ fontSize: '10px', color: 'var(--muted-2)', marginTop: '1px' }}>{p.title} · {formatCurrency(p.amount_usd)} due {formatShortDate(p.due_date)}</div>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
               {(overduePermits?.length ?? 0) + (pendingCOs?.length ?? 0) + (overduePayments?.length ?? 0) === 0 && (
                 <div className="alert-item alert-green">
