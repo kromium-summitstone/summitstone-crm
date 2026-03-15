@@ -27,7 +27,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--black)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
       {/* Blueprint grid */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 0,
@@ -39,22 +39,22 @@ export default function LoginPage() {
         {/* Logo */}
         <div style={{ marginBottom: '40px', textAlign: 'center' }}>
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style={{ margin: '0 auto 12px', display: 'block' }}>
-            <polygon points="20,3 37,33 3,33" fill="none" stroke="rgba(244,242,238,0.9)" strokeWidth="1.8" strokeLinejoin="miter"/>
-            <line x1="20" y1="11" x2="20" y2="32.5" stroke="rgba(244,242,238,0.2)" strokeWidth="0.9" strokeDasharray="1.5 2.5"/>
+            <polygon points="20,3 37,33 3,33" fill="none" stroke="var(--cream)" strokeWidth="1.8" strokeLinejoin="miter"/>
+            <line x1="20" y1="11" x2="20" y2="32.5" stroke="var(--muted)" strokeWidth="0.9" strokeDasharray="1.5 2.5"/>
             <line x1="0" y1="37" x2="40" y2="37" stroke="#4a9eff" strokeWidth="2.2" strokeLinecap="square"/>
             <line x1="7" y1="37" x2="7" y2="40" stroke="#4a9eff" strokeWidth="1.2" strokeLinecap="square"/>
             <line x1="20" y1="37" x2="20" y2="40.5" stroke="#4a9eff" strokeWidth="1.2" strokeLinecap="square"/>
             <line x1="33" y1="37" x2="33" y2="40" stroke="#4a9eff" strokeWidth="1.2" strokeLinecap="square"/>
           </svg>
-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '24px', letterSpacing: '4px', color: '#f4f2ee', lineHeight: 1 }}>SUMMITSTONE</div>
-          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#4a9eff', marginTop: '4px', opacity: 0.8 }}>CONSTRUCTION OS · CRM</div>
+          <div style={{ fontFamily: "var(--font-bebas)", fontSize: '24px', letterSpacing: '4px', color: 'var(--cream)', lineHeight: 1 }}>SUMMITSTONE</div>
+          <div style={{ fontFamily: "var(--font-space-mono)", fontSize: '9px', letterSpacing: '3px', color: '#4a9eff', marginTop: '4px', opacity: 0.8 }}>CONSTRUCTION OS · CRM</div>
         </div>
 
         {/* Card */}
-        <div style={{ background: '#111', border: '1px solid rgba(255,255,255,0.07)' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '16px', letterSpacing: '2px', color: '#f4f2ee' }}>SIGN IN</div>
-            <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '8px', color: 'rgba(244,242,238,0.4)', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '2px' }}>Authorised personnel only</div>
+        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
+            <div style={{ fontFamily: "var(--font-bebas)", fontSize: '16px', letterSpacing: '2px', color: 'var(--cream)' }}>SIGN IN</div>
+            <div style={{ fontFamily: "var(--font-space-mono)", fontSize: '8px', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '2px' }}>Authorised personnel only</div>
           </div>
 
           <form onSubmit={handleLogin} style={{ padding: '20px' }}>
@@ -93,7 +93,7 @@ export default function LoginPage() {
           </form>
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: '16px', fontFamily: "'Space Mono', monospace", fontSize: '9px', color: 'rgba(244,242,238,0.25)', letterSpacing: '0.1em' }}>
+        <div style={{ textAlign: 'center', marginTop: '16px', fontFamily: "var(--font-space-mono)", fontSize: '9px', color: 'var(--muted)', letterSpacing: '0.1em' }}>
           SUMMITSTONE DEVELOPMENTS · CARIBBEAN CONSTRUCTION OS
         </div>
       </div>

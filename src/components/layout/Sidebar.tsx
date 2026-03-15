@@ -93,8 +93,8 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
 
       <aside id="crm-sidebar" style={{
         width: 'var(--sidebar-w)',
-        background: '#111',
-        borderRight: '1px solid rgba(255,255,255,0.07)',
+        background: 'var(--surface)',
+        borderRight: '1px solid var(--border)',
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
@@ -105,26 +105,26 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
         transition: 'transform 0.25s',
       }}>
         {/* Logo */}
-        <div style={{ padding: '18px 18px 14px', borderBottom: '1px solid rgba(255,255,255,0.07)', flexShrink: 0 }}>
+        <div style={{ padding: '18px 18px 14px', borderBottom: '1px solid var(--border)', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '3px' }}>
             <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
-              <polygon points="14,2 26,22 2,22" fill="none" stroke="rgba(244,242,238,0.9)" strokeWidth="1.4" strokeLinejoin="miter"/>
-              <line x1="14" y1="8" x2="14" y2="21.5" stroke="rgba(244,242,238,0.2)" strokeWidth="0.7" strokeDasharray="1.2 2"/>
-              <line x1="0" y1="25" x2="28" y2="25" stroke="#4a9eff" strokeWidth="1.8" strokeLinecap="square"/>
-              <line x1="5" y1="25" x2="5" y2="27.5" stroke="#4a9eff" strokeWidth="0.9" strokeLinecap="square"/>
-              <line x1="14" y1="25" x2="14" y2="28" stroke="#4a9eff" strokeWidth="0.9" strokeLinecap="square"/>
-              <line x1="23" y1="25" x2="23" y2="27.5" stroke="#4a9eff" strokeWidth="0.9" strokeLinecap="square"/>
+              <polygon points="14,2 26,22 2,22" fill="none" stroke="var(--cream)" strokeWidth="1.4" strokeLinejoin="miter"/>
+              <line x1="14" y1="8" x2="14" y2="21.5" stroke="var(--muted)" strokeWidth="0.7" strokeDasharray="1.2 2"/>
+              <line x1="0" y1="25" x2="28" y2="25" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="square"/>
+              <line x1="5" y1="25" x2="5" y2="27.5" stroke="var(--accent)" strokeWidth="0.9" strokeLinecap="square"/>
+              <line x1="14" y1="25" x2="14" y2="28" stroke="var(--accent)" strokeWidth="0.9" strokeLinecap="square"/>
+              <line x1="23" y1="25" x2="23" y2="27.5" stroke="var(--accent)" strokeWidth="0.9" strokeLinecap="square"/>
             </svg>
-            <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '16px', letterSpacing: '2px', color: '#f4f2ee' }}>SUMMITSTONE</span>
+            <span style={{ fontFamily: 'var(--font-bebas)', fontSize: '16px', letterSpacing: '2px', color: 'var(--cream)' }}>SUMMITSTONE</span>
           </div>
-          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '7px', letterSpacing: '3px', color: '#4a9eff', opacity: 0.8, paddingLeft: '36px' }}>CONSTRUCTION OS</div>
+          <div style={{ fontFamily: 'var(--font-space-mono)', fontSize: '7px', letterSpacing: '3px', color: 'var(--accent)', opacity: 0.8, paddingLeft: '36px' }}>CONSTRUCTION OS</div>
         </div>
 
         {/* Nav */}
         <nav style={{ flex: 1, overflowY: 'auto', paddingBottom: '8px' }}>
           {navItems.map(section => (
             <div key={section.section}>
-              <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(244,242,238,0.4)', padding: '14px 18px 5px' }}>
+              <div style={{ fontFamily: 'var(--font-space-mono)', fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--muted)', padding: '14px 18px 5px' }}>
                 {section.section}
               </div>
               {section.items.map(item => {
@@ -133,9 +133,9 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
                   <Link key={item.href} href={item.href} style={{
                     display: 'flex', alignItems: 'center', gap: '10px',
                     padding: '8px 18px',
-                    borderLeft: `2px solid ${isActive ? '#4a9eff' : 'transparent'}`,
-                    background: isActive ? 'rgba(74,158,255,0.1)' : 'transparent',
-                    color: isActive ? '#f4f2ee' : 'rgba(244,242,238,0.65)',
+                    borderLeft: `2px solid ${isActive ? 'var(--accent)' : 'transparent'}`,
+                    background: isActive ? 'var(--accent-dim)' : 'transparent',
+                    color: isActive ? 'var(--cream)' : 'var(--muted-2)',
                     textDecoration: 'none',
                     fontSize: '12px',
                     fontWeight: 500,
@@ -151,28 +151,28 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
         </nav>
 
         {/* User footer */}
-        <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+        <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
           <div style={{
             width: '30px', height: '30px',
-            background: 'rgba(74,158,255,0.12)',
-            border: '1px solid rgba(74,158,255,0.3)',
+            background: 'var(--accent-dim)',
+            border: '1px solid var(--accent-line)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: "'Space Mono', monospace",
-            fontSize: '10px', color: '#4a9eff', fontWeight: 700, flexShrink: 0,
+            fontFamily: 'var(--font-space-mono)',
+            fontSize: '10px', color: 'var(--accent)', fontWeight: 700, flexShrink: 0,
           }}>
             {profile?.avatar_initials ?? profile?.full_name?.slice(0,2).toUpperCase() ?? 'SS'}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '11px', fontWeight: 600, color: '#f4f2ee', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--cream)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {profile?.full_name ?? 'User'}
             </div>
-            <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '8px', color: 'rgba(244,242,238,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            <div style={{ fontFamily: 'var(--font-space-mono)', fontSize: '8px', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               {profile?.role ?? 'viewer'}
             </div>
           </div>
           <button onClick={handleSignOut} title="Sign out" style={{
             background: 'none', border: 'none', cursor: 'pointer',
-            color: 'rgba(244,242,238,0.4)', padding: '4px', display: 'flex', alignItems: 'center',
+            color: 'var(--muted)', padding: '4px', display: 'flex', alignItems: 'center',
           }}>
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M6 14H2V2h4M11 11l3-3-3-3M14 8H6"/>

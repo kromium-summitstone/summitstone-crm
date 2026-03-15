@@ -116,7 +116,7 @@ export default function ReportsPage() {
         <div ref={reportRef} style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
 
           {/* Report Header */}
-          <div style={{ padding: '28px 32px', borderBottom: '2px solid var(--accent)', background: '#111' }}>
+          <div style={{ padding: '28px 32px', borderBottom: '2px solid var(--accent)', background: 'var(--surface)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
@@ -331,7 +331,7 @@ export default function ReportsPage() {
           )}
 
           {/* Report footer */}
-          <div style={{ padding: '18px 32px', background: '#111', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ padding: '18px 32px', background: 'var(--surface)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ fontFamily: 'var(--font-space-mono)', fontSize: '8px', color: 'var(--muted)', letterSpacing: '0.1em' }}>
               SUMMITSTONE DEVELOPMENTS LTD · CONFIDENTIAL · NOT FOR REDISTRIBUTION
             </div>

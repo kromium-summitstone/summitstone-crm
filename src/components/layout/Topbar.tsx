@@ -33,8 +33,8 @@ export default function Topbar({ profile }: { profile: Profile | null }) {
   return (
     <header style={{
       height: '52px',
-      background: '#111',
-      borderBottom: '1px solid rgba(255,255,255,0.07)',
+      background: 'var(--surface)',
+      borderBottom: '1px solid var(--border)',
       display: 'flex',
       alignItems: 'center',
       padding: '0 24px',
@@ -42,18 +42,21 @@ export default function Topbar({ profile }: { profile: Profile | null }) {
       flexShrink: 0,
     }}>
       <div style={{ flex: 1 }}>
-        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '20px', letterSpacing: '2px', color: '#f4f2ee', lineHeight: 1 }}>
+        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '20px', letterSpacing: '2px', color: 'var(--cream)', lineHeight: 1 }}>
           {meta.title}
         </div>
-        <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '9px', letterSpacing: '0.15em', color: 'rgba(244,242,238,0.4)', textTransform: 'uppercase', marginTop: '1px' }} className="hide-mobile">
+        <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '9px', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase', marginTop: '1px' }} className="hide-mobile">
           {meta.sub}
         </div>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: '9px', color: 'rgba(244,242,238,0.4)', letterSpacing: '0.1em' }} className="hide-mobile">
+        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: '9px', color: 'var(--muted)', letterSpacing: '0.1em' }} className="hide-mobile">
           {dateStr}
         </span>
+          <button onClick={toggle} className="theme-toggle" title={theme === 'dark' ? 'Light mode' : 'Dark mode'} aria-label="Toggle theme">
+            {theme === 'dark' ? '☀' : '☾'}
+          </button>
       </div>
 
       <style>{`
