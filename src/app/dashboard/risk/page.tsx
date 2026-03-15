@@ -147,7 +147,7 @@ export default function RiskPage() {
         </div>
       )}
 
-      {/* Heatmap */}}
+      {/* Heatmap */}
         <div className="panel">
           <div className="panel-header">
             <div><div className="panel-title">RISK HEATMAP</div><div className="panel-sub">Likelihood vs Impact · Active risks only</div></div>
