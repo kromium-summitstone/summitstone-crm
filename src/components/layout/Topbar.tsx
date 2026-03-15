@@ -16,6 +16,12 @@ const pageTitles: Record<string, { title: string; sub: string }> = {
   '/dashboard/investor': { title: 'INVESTOR PORTAL', sub: 'Remote reporting · Portfolio overview' },
   '/dashboard/risk': { title: 'RISK HEATMAP', sub: 'Project risk matrix · Live exposure tracking' },
   '/dashboard/documents': { title: 'DOCUMENTS', sub: 'Role-based access · Secure storage' },
+  '/dashboard/rfis': { title: 'RFIs & SUBMITTALS', sub: 'Requests for Information · Shop drawings · Approval tracking' },
+  '/dashboard/safety': { title: 'SAFETY COMPLIANCE', sub: 'Incident register · Site checklist · Caribbean OSHA' },
+  '/dashboard/feasibility': { title: 'FEASIBILITY & ROI ENGINE', sub: 'Development appraisal · Caribbean benchmarks · Multi-currency' },
+  '/dashboard/clients': { title: 'CLIENTS', sub: 'Developer & investor directory · Portfolio overview' },
+  '/dashboard/reports': { title: 'CLIENT REPORTS', sub: 'Progress reports · Financial summaries · PDF export' },
+  '/dashboard/contractors': { title: 'CONTRACTORS', sub: 'Performance intelligence · Regional network · Trade comparison' },
 }
 
 export default function Topbar({ profile }: { profile: Profile | null }) {

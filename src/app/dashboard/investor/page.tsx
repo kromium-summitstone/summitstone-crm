@@ -21,12 +21,29 @@ export default async function InvestorPortalPage() {
 
   return (
     <div>
-      {/* Banner */}
-      <div style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-line)', padding: '10px 16px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#4a9eff" strokeWidth="1.5"><circle cx="7" cy="7" r="6"/><line x1="7" y1="5" x2="7" y2="7"/><circle cx="7" cy="9.5" r="0.6" fill="#4a9eff"/></svg>
-        <span style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--accent)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-          INVESTOR VIEW — Read-only reporting portal · {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-        </span>
+      {/* Banner with share link */}
+      <div style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-line)', padding: '10px 16px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#4a9eff" strokeWidth="1.5"><circle cx="7" cy="7" r="6"/><line x1="7" y1="5" x2="7" y2="7"/><circle cx="7" cy="9.5" r="0.6" fill="#4a9eff"/></svg>
+          <span style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--accent)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            INTERNAL VIEW — Staff dashboard · {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+          </span>
+        </div>
+        <Link href="/investor" target="_blank" style={{
+          display: 'flex', alignItems: 'center', gap: '6px',
+          padding: '5px 14px',
+          background: 'rgba(74,158,255,0.15)',
+          border: '1px solid rgba(74,158,255,0.4)',
+          color: 'var(--accent)',
+          fontFamily: 'var(--font-space-mono)',
+          fontSize: '9px',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          textDecoration: 'none',
+        }}>
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 2H2v8h8V7M7 1h4v4M11 1L5 7"/></svg>
+          Share Investor Portal
+        </Link>
       </div>
 
       {/* Stats */}
