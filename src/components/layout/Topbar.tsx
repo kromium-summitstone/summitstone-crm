@@ -5,12 +5,12 @@ import type { Profile } from '@/types'
 
 const pageTitles: Record<string, { title: string; sub: string }> = {
   '/dashboard': { title: 'DASHBOARD', sub: 'Construction Operations Overview' },
+  '/dashboard/pipeline/new': { title: 'NEW PROJECT', sub: 'Add project to pipeline' },
   '/dashboard/pipeline': { title: 'PROJECT PIPELINE', sub: 'Lead tracking · Active builds · Handover' },
   '/dashboard/budget': { title: 'BUDGET & FORECASTING', sub: 'Multi-currency · Cost control · Variance tracking' },
   '/dashboard/payments': { title: 'PAYMENT SCHEDULES', sub: 'Milestone disbursements · All contracts' },
   '/dashboard/changeorders': { title: 'CHANGE ORDERS', sub: 'CO log · Approvals · Audit trail' },
   '/dashboard/procurement': { title: 'PROCUREMENT', sub: 'Multi-island import tracking · All shipments' },
-  '/dashboard/contractors': { title: 'CONTRACTORS', sub: 'Performance scoring · Regional network' },
   '/dashboard/sitelogs': { title: 'SITE LOGS', sub: 'Daily field documentation' },
   '/dashboard/permits': { title: 'PERMITS & APPROVALS', sub: 'Government workflows · All jurisdictions' },
   '/dashboard/investor': { title: 'INVESTOR PORTAL', sub: 'Remote reporting · Portfolio overview' },

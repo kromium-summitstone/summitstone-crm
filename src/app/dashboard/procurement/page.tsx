@@ -24,6 +24,11 @@ export default function ProcurementPage() {
   }
   useEffect(() => { load() }, [])
 
+  async function updateStatus(id: string, status: string) {
+    await supabase.from('shipments').update({ status }).eq('id', id)
+    load()
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     await supabase.from('shipments').insert({ ...form, value_usd: parseFloat(form.value_usd) || 0 })
@@ -90,7 +95,7 @@ export default function ProcurementPage() {
         </div>
         <div className="table-scroll">
           <table className="data-table">
-            <thead><tr><th>Ref</th><th>Material</th><th>Supplier</th><th>Origin</th><th>Destination</th><th>Project</th><th>Value</th><th>ETA</th><th>Status</th></tr></thead>
+            <thead><tr><th>Ref</th><th>Material</th><th>Supplier</th><th>Origin</th><th>Destination</th><th>Project</th><th>Value</th><th>ETA</th><th>Status</th><th>Update</th></tr></thead>
             <tbody>
               {loading && <tr><td colSpan={9} style={{ textAlign: 'center', padding: '20px', color: 'var(--muted)' }}>Loading...</td></tr>}
               {!loading && shipments.map(s => {
@@ -106,6 +111,16 @@ export default function ProcurementPage() {
                     <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '11px' }}>{formatCurrency(s.value_usd)}</td>
                     <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px' }}>{formatShortDate(s.eta_date)}</td>
                     <td><span className={`badge badge-${v}`}>{SHIPMENT_STATUS_LABELS[s.status as ShipmentStatus] ?? s.status}</span></td>
+                    <td>
+                      <select style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', color: 'var(--muted-2)', fontSize: '9px', padding: '3px 6px', fontFamily: 'var(--font-space-mono)', cursor: 'pointer' }}
+                        value={s.status} onChange={e => updateStatus(s.id, e.target.value)}>
+                        <option value="ordered">Ordered</option>
+                        <option value="in_transit">In Transit</option>
+                        <option value="customs_hold">Customs Hold</option>
+                        <option value="delayed">Delayed</option>
+                        <option value="delivered">Delivered</option>
+                      </select>
+                    </td>
                   </tr>
                 )
               })}
