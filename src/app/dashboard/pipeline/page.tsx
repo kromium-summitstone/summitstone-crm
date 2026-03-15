@@ -41,7 +41,7 @@ export default function PipelinePage() {
   const totalValue = filtered.reduce((s, p) => s + (p.budget_usd ?? 0), 0)
   const activeCount = filtered.filter(p => ['in_construction', 'pre_construction'].includes(p.stage)).length
 
-  const types = [...new Set(projects.map(p => p.type))].sort()
+  const types = Array.from(new Set(projects.map(p => p.type))).sort()
 
   return (
     <div>
