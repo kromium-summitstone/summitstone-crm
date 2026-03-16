@@ -26,6 +26,7 @@ export default function InvestorProjectDetail() {
   const [sitelogs, setSitelogs] = useState<any[]>([])
   const [documents, setDocuments] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
 
   useEffect(() => {
     if (!id) return
@@ -51,7 +52,11 @@ export default function InvestorProjectDetail() {
         supabase.from('site_logs').select('*').eq('project_id', id).order('log_date', { ascending: false }).limit(8),
         supabase.from('documents').select('*').eq('project_id', id).in('access_level', ['all_staff', 'investors']),
       ])
-      if (!proj) { router.push('/investor'); return }
+      if (!proj) {
+        setLoadError('Project not found.')
+        setLoading(false)
+        return
+      }
       setProject(proj)
       setMilestones(ms ?? [])
       setPayments(pays ?? [])
@@ -65,6 +70,13 @@ export default function InvestorProjectDetail() {
     }
     load()
   }, [id])
+
+  if (loadError) return (
+    <div style={{ minHeight: '100vh', background: 'var(--black)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
+      <div style={{ fontFamily: 'var(--font-bebas)', fontSize: '28px', color: 'var(--red)', letterSpacing: '0.06em' }}>{loadError}</div>
+      <Link href="/investor" style={{ fontFamily: 'var(--font-space-mono)', fontSize: '10px', color: 'var(--accent)', textDecoration: 'none' }}>← Back to Portfolio</Link>
+    </div>
+  )
 
   if (loading) return (
     <div style={{ minHeight: '100vh', background: 'var(--black)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

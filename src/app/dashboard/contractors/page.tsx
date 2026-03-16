@@ -39,7 +39,7 @@ export default function ContractorsPage() {
 
   async function load() {
     const [{ data: c }, { data: p }] = await Promise.all([
-      supabase.from('contractors').select('*, milestones(count), projects:milestones(project:projects(name,island,stage))').order('overall_score', { ascending: false }),
+      supabase.from('contractors').select('*').order('overall_score', { ascending: false }),
       supabase.from('projects').select('id, name, island, stage'),
     ])
     setContractors(c ?? [])

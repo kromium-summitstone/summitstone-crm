@@ -20,6 +20,7 @@ export default function ProjectDetailPage() {
   const [permits, setPermits] = useState<any[]>([])
   const [shipments, setShipments] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
   const [showEditStage, setShowEditStage] = useState(false)
   const [editForm, setEditForm] = useState<any>({})
@@ -38,7 +39,7 @@ export default function ProjectDetailPage() {
       { data: perms },
       { data: ships },
     ] = await Promise.all([
-      supabase.from('projects').select('*, client:clients(name, email, phone), project_manager:profiles(full_name)').eq('id', id).single(),
+      supabase.from('projects').select('*, client:clients(name, email, phone)').eq('id', id).single(),
       supabase.from('milestones').select('*, contractor:contractors(name)').eq('project_id', id).order('sequence_order'),
       supabase.from('change_orders').select('*').eq('project_id', id).order('created_at', { ascending: false }),
       supabase.from('payments').select('*').eq('project_id', id).order('due_date'),
@@ -47,7 +48,11 @@ export default function ProjectDetailPage() {
       supabase.from('permits').select('*').eq('project_id', id).order('sequence_order'),
       supabase.from('shipments').select('*').eq('project_id', id).order('created_at', { ascending: false }),
     ])
-    if (!proj) { router.push('/dashboard/pipeline'); return }
+    if (!proj) {
+      setLoadError('Project not found or you do not have permission to view it.')
+      setLoading(false)
+      return
+    }
     setProject(proj)
     setEditForm({ stage: proj.stage, completion_pct: proj.completion_pct, spent_usd: proj.spent_usd || 0 })
     setMilestones(ms ?? [])
@@ -97,6 +102,14 @@ export default function ProjectDetailPage() {
     setMilestoneForm({ title: '', target_date: '', sequence_order: '1', notes: '' })
     load()
   }
+
+  if (loadError) return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', gap: '16px' }}>
+      <div style={{ fontFamily: 'var(--font-bebas)', fontSize: '28px', color: 'var(--red)', letterSpacing: '0.06em' }}>Unable to load project</div>
+      <div style={{ fontFamily: 'var(--font-space-mono)', fontSize: '10px', color: 'var(--muted)', maxWidth: '400px', textAlign: 'center' }}>{loadError}</div>
+      <Link href="/dashboard/pipeline" className="btn btn-secondary">← Back to Pipeline</Link>
+    </div>
+  )
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '200px', color: 'var(--muted)' }}>
@@ -233,7 +246,7 @@ export default function ProjectDetailPage() {
                     ['Target End', formatDate(project.target_end_date)],
                     ['Address', project.address || '—'],
                     ['Client', project.client?.name || '—'],
-                    ['PM', project.project_manager?.full_name || '—'],
+                    ['Contract', project.contract_type?.replace(/_/g, ' ') || '—'],
                   ].map(([label, value]) => (
                     <tr key={label} style={{ borderBottom: '1px solid var(--border)' }}>
                       <td style={{ fontFamily: 'var(--font-space-mono)', fontSize: '9px', color: 'var(--muted)', padding: '8px 0', letterSpacing: '0.1em', textTransform: 'uppercase', width: '120px' }}>{label}</td>
