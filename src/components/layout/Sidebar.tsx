@@ -7,6 +7,12 @@ import { useRouter } from 'next/navigation'
 import type { Profile } from '@/types'
 
 const navItems = [
+  { section: 'Lead Generation', items: [
+    { href: '/dashboard/enquiries',   label: 'Website Enquiries', icon: 'enquiries' },
+    { href: '/dashboard/attribution', label: 'Attribution & ROI', icon: 'attribution' },
+    { href: '/dashboard/appointments',label: 'Appointments',      icon: 'appointments' },
+    { href: '/dashboard/nurture',     label: 'Nurture Sequences', icon: 'nurture' },
+  ]},
   { section: 'Overview', items: [
     { href: '/dashboard', label: 'Dashboard', icon: 'grid' },
     { href: '/dashboard/pipeline', label: 'Project Pipeline', icon: 'pipeline' },
@@ -39,6 +45,10 @@ const navItems = [
 ]
 
 const icons: Record<string, React.ReactNode> = {
+  enquiries: <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="1" y="2" width="14" height="11" rx="1"/><polyline points="1,5 8,9 15,5"/><line x1="4" y1="14" x2="8" y2="11"/><line x1="12" y1="14" x2="8" y2="11"/></svg>,
+  attribution: <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="1" y="9" width="3" height="6"/><rect x="6" y="5" width="3" height="10"/><rect x="11" y="2" width="3" height="13"/><polyline points="2.5,9 7.5,5 12.5,2" opacity="0.5"/></svg>,
+  appointments: <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="1" y="3" width="14" height="12" rx="1"/><line x1="5" y1="1" x2="5" y2="5"/><line x1="11" y1="1" x2="11" y2="5"/><line x1="1" y1="7" x2="15" y2="7"/><line x1="5" y1="10" x2="5" y2="12"/><line x1="8" y1="10" x2="8" y2="12"/><line x1="11" y1="10" x2="11" y2="12"/></svg>,
+  nurture: <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="3" cy="8" r="2"/><circle cx="8" cy="3" r="2"/><circle cx="13" cy="8" r="2"/><circle cx="8" cy="13" r="2"/><line x1="5" y1="8" x2="6" y2="8"/><line x1="10" y1="8" x2="11" y2="8"/><line x1="8" y1="5" x2="8" y2="6"/><line x1="8" y1="10" x2="8" y2="11"/></svg>,
   grid: <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="1" y="1" width="6" height="6"/><rect x="9" y="1" width="6" height="6"/><rect x="1" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6" opacity="0.4"/></svg>,
   pipeline: <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="3" cy="8" r="2"/><circle cx="8" cy="8" r="2"/><circle cx="13" cy="8" r="2"/><line x1="5" y1="8" x2="6" y2="8"/><line x1="10" y1="8" x2="11" y2="8"/></svg>,
   budget: <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="1" y="3" width="14" height="10" rx="1"/><line x1="1" y1="6" x2="15" y2="6"/><line x1="4" y1="10" x2="7" y2="10"/></svg>,
